@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Database (keep .db files - uncomment to exclude)
+# *.db
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Configs dengan secret
+configs/secret*.yml
+configs/secret*.yaml
+*.env
+.env
+
