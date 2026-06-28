@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Tagihan — ISM30{% endblock %}
+{% block content %}
+
+<div class="flex items-center justify-between mb-6">
+  <h1 class="text-2xl font-bold text-gray-800">💰 Tagihan Bulanan</h1>
+  <form method="get" action="/tagihan" class="flex items-center gap-2">
+    <input type="month" name="bulan" value="{{ bulan }}"
+      class="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Lihat</button>
+  </form>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-cols-3 gap-4 mb-6">
+  <div class="bg-white rounded-xl shadow p-4 text-center">
+    <div class="text-2xl font-bold text-blue-600">{{ stats.total }}</div>
+    <div class="text-gray-500 text-sm">Total Pelanggan</div>
+  </div>
+  <div class="bg-white rounded-xl shadow p-4 text-center">
+    <div class="text-2xl font-bold text-green-600">{{ stats.lunas }}</div>
+    <div class="text-gray-500 text-sm">Sudah Bayar</div>
+  </div>
+  <div class="bg-white rounded-xl shadow p-4 text-center">
+    <div class="text-2xl font-bold text-red-500">{{ stats.belum }}</div>
+    <div class="text-gray-500 text-sm">Belum Bayar</div>
+  </div>
+</div>
+
+<div class="bg-white rounded-xl shadow overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 border-b text-gray-500 text-left">
+          <th class="px-4 py-3">Nama</th>
+          <th class="px-4 py-3">Alamat</th>
+          <th class="px-4 py-3">Username</th>
+          <th class="px-4 py-3">Tgl Bayar</th>
+          <th class="px-4 py-3">Tagihan</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Tgl Lunas</th>
+          <th class="px-4 py-3">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr class="border-b hover:bg-gray-50">
+          <td class="px-4 py-3 font-medium">{{ r.nama }}</td>
+          <td class="px-4 py-3 text-gray-600">{{ r.alamat or '-' }}</td>
+          <td class="px-4 py-3 font-mono text-xs">{{ r.username }}</td>
+          <td class="px-4 py-3 text-center">{{ r.tanggal_bayar }}</td>
+          <td class="px-4 py-3">{{ format_rupiah(120000) }}</td>
+          <td class="px-4 py-3">
+            {% if r.lunas %}
+              <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">✅ Lunas</span>
+            {% else %}
+              <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs">❌ Belum</span>
+            {% endif %}
+          </td>
+          <td class="px-4 py-3 text-gray-500 text-xs">{{ r.tanggal_lunas or '-' }}</td>
+          <td class="px-4 py-3">
+            {% if not r.lunas %}
+              <button onclick="bayar('{{ r.id }}', '{{ bulan }}')"
+                class="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700">
+                Tandai Lunas
+              </button>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="px-4 py-8 text-center text-gray-400">Tidak ada data.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+async function bayar(pid, bulan) {
+  if (!confirm('Tandai lunas bulan ' + bulan + '?')) return;
+  const fd = new FormData();
+  fd.append('bulan', bulan);
+  const r = await fetch('/bayar/' + pid, {method: 'POST', body: fd});
+  const j = await r.json();
+  if (j.ok) location.reload();
+  else alert(j.msg);
+}
+</script>
+
+{% endblock %}

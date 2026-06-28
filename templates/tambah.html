@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Tambah Pelanggan — ISM30{% endblock %}
+{% block content %}
+
+<div class="max-w-xl mx-auto">
+  <div class="bg-white rounded-xl shadow p-8">
+    <h1 class="text-xl font-bold text-gray-800 mb-6">➕ Tambah Pelanggan Baru</h1>
+
+    {% if error %}
+    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">❌ {{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="/tambah" class="space-y-4">
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+        <input type="text" name="nama" required
+          class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Nama lengkap">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+        <input type="text" name="alamat"
+          class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Alamat rumah">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Nomor WhatsApp <span class="text-red-500">*</span></label>
+        <input type="text" name="nomor_wa" required
+          class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="08xxxxxxxxxx">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Profile Paket <span class="text-red-500">*</span></label>
+        <input type="text" name="profile" required list="profile-list"
+          class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Nama profile di Mikrotik">
+        <datalist id="profile-list">
+          {% for p in profiles %}
+          <option value="{{ p }}">
+          {% endfor %}
+        </datalist>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input type="text" name="username"
+            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Otomatis dari nama">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input type="text" name="password"
+            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Otomatis">
+        </div>
+      </div>
+      <p class="text-xs text-gray-400">Username & password otomatis jika dikosongkan.</p>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai <span class="text-red-500">*</span></label>
+          <input type="date" name="tanggal_mulai" required value="{{ today }}"
+            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Jatuh Tempo (tgl) <span class="text-red-500">*</span></label>
+          <input type="number" name="tanggal_bayar" required min="1" max="28"
+            class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Contoh: 5">
+          <p class="text-xs text-gray-400 mt-1">Tanggal bayar setiap bulan (1–28)</p>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Catatan</label>
+        <textarea name="catatan" rows="2"
+          class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Catatan tambahan (opsional)"></textarea>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition">
+        Simpan & Buat Akun
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

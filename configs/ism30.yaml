@@ -1,0 +1,22 @@
+mikrotik_servers:
+  - name: "ISM30"
+    host: "id3.tunnel.my.id"
+    port: 12226
+    username: "BOTOK"
+    password: "BOTOKKU"
+  - name: "ISM22"
+    host: "sg17.gukotunnel.net"
+    port: 5646
+    username: "BOTOK"
+    password: "BOTOKKU"
+
+wuzapi:
+  url: "http://127.0.0.1:8080"
+  token: "ism30"
+
+profiles:
+  - permanen
+
+admin_wa: "6281370024154"
+harga_bulanan: 120000
+db_path: "/home/ubuntu/projects/pelanggan-bulanan-ism30/data/pelanggan.db"

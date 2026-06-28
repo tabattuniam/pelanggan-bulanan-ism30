@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ISM30{% endblock %}
+{% block content %}
+
+<div class="mb-6">
+  <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
+  <p class="text-gray-500 text-sm mt-1">{{ hari_ini }}</p>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-cols-3 gap-4 mb-8">
+  <div class="bg-white rounded-xl shadow p-5 text-center">
+    <div class="text-3xl font-bold text-blue-600">{{ stats.total }}</div>
+    <div class="text-gray-500 text-sm mt-1">Total Pelanggan Aktif</div>
+  </div>
+  <div class="bg-white rounded-xl shadow p-5 text-center">
+    <div class="text-3xl font-bold text-green-600">{{ stats.lunas }}</div>
+    <div class="text-gray-500 text-sm mt-1">Sudah Bayar Bulan Ini</div>
+  </div>
+  <div class="bg-white rounded-xl shadow p-5 text-center">
+    <div class="text-3xl font-bold text-red-500">{{ stats.belum }}</div>
+    <div class="text-gray-500 text-sm mt-1">Belum Bayar Bulan Ini</div>
+  </div>
+</div>
+
+<!-- Jatuh Tempo Hari Ini -->
+<div class="bg-white rounded-xl shadow p-6">
+  <h2 class="text-lg font-semibold text-gray-700 mb-4">⏰ Jatuh Tempo Hari Ini</h2>
+  {% if jatuh_tempo %}
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead>
+        <tr class="border-b text-gray-500 text-left">
+          <th class="pb-2 pr-4">Nama</th>
+          <th class="pb-2 pr-4">No WA</th>
+          <th class="pb-2 pr-4">Username</th>
+          <th class="pb-2 pr-4">Profile</th>
+          <th class="pb-2">Status Bayar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in jatuh_tempo %}
+        <tr class="border-b hover:bg-gray-50">
+          <td class="py-2 pr-4 font-medium">{{ p.nama }}</td>
+          <td class="py-2 pr-4 text-gray-600">{{ p.nomor_wa }}</td>
+          <td class="py-2 pr-4 font-mono text-xs">{{ p.username }}</td>
+          <td class="py-2 pr-4">{{ p.profile }}</td>
+          <td class="py-2">
+            {% if p.lunas %}
+              <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">✅ Lunas</span>
+            {% else %}
+              <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs">❌ Belum</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="text-gray-400 text-center py-4">Tidak ada jatuh tempo hari ini.</p>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Pelanggan Bulanan ISM30{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <nav class="bg-blue-700 text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <span class="font-bold text-lg">📶 ISM30 Pelanggan Bulanan</span>
+      <div class="flex gap-4 text-sm">
+        <a href="/" class="hover:underline">🏠 Dashboard</a>
+        <a href="/tambah" class="hover:underline">➕ Tambah</a>
+        <a href="/pelanggan" class="hover:underline">👥 Pelanggan</a>
+        <a href="/tagihan" class="hover:underline">💰 Tagihan</a>
+      </div>
+    </div>
+  </nav>
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
